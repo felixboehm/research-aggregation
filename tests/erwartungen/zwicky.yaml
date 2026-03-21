@@ -1,0 +1,18 @@
+# Expected Zwicky dimensions from the 3 test fixtures
+
+expected_dimensions:
+  - name_pattern: "location|location-type"
+    min_options: 3
+    examples: ["Downtown", "University area", "Suburban", "Transit hub"]
+
+  - name_pattern: "pricing|pricing-strategy"
+    min_options: 2
+    examples: ["Premium pricing", "Value pricing", "Anchor pricing"]
+
+  - name_pattern: "format|service-format"
+    min_options: 2
+    examples: ["Grab-and-go", "Full service", "Hybrid"]
+
+expected_gaps:
+  - description: "Suburban location + premium pricing strategy"
+    status: "partial or unexplored"

@@ -1,0 +1,29 @@
+# Research Aggregation Plugin
+
+Systematic knowledge aggregation and synthesis for knowledge-base projects.
+
+## Core Principle
+
+From isolated knowledge documents, systematically generate connections, combinations, and new insights.
+
+## Skill
+
+- `/research-aggregation:research` – 3-phase pipeline (Breadth → Depth → Synthesis)
+
+## Agent
+
+- `@synthesizer` – Meta-analyst for Cross-Impact, Morphology, and Graph analysis
+
+## Outputs
+
+All results are stored under `synthesis/` in the target project:
+- `graph/` – Knowledge Graph (nodes + edges in YAML)
+- `zwicky/` – Morphological Box (dimensions + cells)
+- `combinations/` – Calculated multi-strategy combinations
+- `decision-trees/` – Decision trees
+- `gaps/` – Gap matrix + research questions
+- `runs/` – Run history with deltas and insights
+
+## Language
+
+All documents and communication in **English**.

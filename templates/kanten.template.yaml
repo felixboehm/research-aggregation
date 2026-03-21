@@ -1,0 +1,7 @@
+edges:
+  - from: concept-a                # Node ID (must exist in nodes.yaml)
+    to: concept-b                  # Node ID
+    type: supports                 # supports | conflicts | requires | amplifies | activates | limits
+    strength: medium               # weak | medium | strong
+    description: "Why does this relationship exist?"
+    condition: null                # Under what condition? (null if always)

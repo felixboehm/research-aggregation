@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_PARAMS\" | grep -q 'synthesis/graph/.*\\.yaml'; then python3 -c \"import yaml, sys; yaml.safe_load(open(sys.argv[1]))\" \"$(echo $CLAUDE_TOOL_PARAMS | grep -o '\"file_path\":\"[^\"]*\"' | cut -d'\"' -f4)\" 2>&1 && echo 'YAML validation passed' || echo 'WARNING: YAML validation failed'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

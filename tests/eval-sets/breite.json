@@ -1,0 +1,56 @@
+{
+  "skill_name": "research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run /research breadth on the directory tests/fixtures/",
+      "expected_output": "Knowledge Graph with nodes and edges, Zwicky dimensions, gap matrix",
+      "assertions": [
+        {
+          "text": "nodes.yaml exists and contains at least 5 nodes",
+          "type": "structural"
+        },
+        {
+          "text": "Every node has the required fields: id, name, type, sources, summary",
+          "type": "structural"
+        },
+        {
+          "text": "edges.yaml exists and contains at least 3 edges",
+          "type": "structural"
+        },
+        {
+          "text": "Edge types are only from the allowed set: supports, conflicts, requires, amplifies, activates, limits",
+          "type": "structural"
+        },
+        {
+          "text": "The concept 'foot traffic' or 'location' was extracted as a node",
+          "type": "content"
+        },
+        {
+          "text": "The concept 'menu optimization' or 'pricing strategy' was extracted as a node",
+          "type": "content"
+        },
+        {
+          "text": "An 'amplifies' edge between location and menu strategy was recognized",
+          "type": "content"
+        },
+        {
+          "text": "The conflict between menu variety and service speed was recognized as a 'conflicts' edge",
+          "type": "content"
+        },
+        {
+          "text": "dimensions.yaml exists and contains at least 2 dimensions",
+          "type": "structural"
+        },
+        {
+          "text": "gap-matrix.md exists and identifies at least 1 gap",
+          "type": "structural"
+        },
+        {
+          "text": "A run entry under runs/ was created with run.yaml",
+          "type": "structural"
+        }
+      ]
+    }
+  ]
+}

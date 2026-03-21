@@ -1,0 +1,8 @@
+nodes:
+  - id: example-concept            # kebab-case, unique
+    name: "Example Concept"        # Human-readable name
+    type: strategy                 # strategy | constraint | mechanism | structure | risk | role
+    sources: ["wissen/01"]         # References to knowledge documents
+    references: ["Smith 2023"]     # Relevant references (papers, standards, etc.)
+    tags: ["example", "demo"]      # Free-text tags
+    summary: "Short description of the concept in one sentence"

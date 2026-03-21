@@ -1,0 +1,10 @@
+dimensions:
+  - id: dimension-a
+    name: "Name of Dimension"
+    options:
+      - id: option-1
+        name: "First Option"
+      - id: option-2
+        name: "Second Option"
+      - id: option-3
+        name: "Third Option"

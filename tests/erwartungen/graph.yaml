@@ -1,0 +1,39 @@
+# Expected nodes and edges from the 3 test fixtures
+# Minimum expectations – the skill may find more
+
+expected_nodes:
+  - id_pattern: "foot-traffic|location|location-strategy"
+    type: strategy
+    must_contain_sources: ["wissen-a"]
+
+  - id_pattern: "menu-optimization|pricing-strategy|pricing"
+    type: mechanism
+    must_contain_sources: ["wissen-b"]
+
+  - id_pattern: "anchor-pricing|psychological-pricing"
+    type: mechanism
+    must_contain_sources: ["wissen-b"]
+
+  - id_pattern: "rent-to-revenue|rent-ratio"
+    type: constraint
+    must_contain_sources: ["wissen-a"]
+
+  - id_pattern: "seasonal-items|seasonal-menu"
+    type: mechanism
+    must_contain_sources: ["wissen-b"]
+
+expected_edges:
+  - from_pattern: "location|foot-traffic"
+    to_pattern: "menu|pricing"
+    type: amplifies
+    reason: "Doc C describes how location drives menu strategy (synergy)"
+
+  - from_pattern: "menu-variety|large-menu"
+    to_pattern: "service-speed|fast-service"
+    type: conflicts
+    reason: "Doc C describes conflict: menu variety vs. speed"
+
+  - from_pattern: "rent|high-rent"
+    to_pattern: "pricing|premium-pricing"
+    type: requires
+    reason: "Doc C: high-rent location requires premium pricing to be sustainable"

@@ -1,0 +1,40 @@
+{
+  "skill_name": "research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze my knowledge base and find gaps",
+      "should_trigger": true
+    },
+    {
+      "id": 2,
+      "prompt": "What combinations exist between my documents?",
+      "should_trigger": true
+    },
+    {
+      "id": 3,
+      "prompt": "Create a Knowledge Graph from my knowledge documents",
+      "should_trigger": true
+    },
+    {
+      "id": 4,
+      "prompt": "What is missing in my knowledge base?",
+      "should_trigger": true
+    },
+    {
+      "id": 5,
+      "prompt": "Write a lease agreement for my shop",
+      "should_trigger": false
+    },
+    {
+      "id": 6,
+      "prompt": "Calculate the cost of goods for my espresso drinks",
+      "should_trigger": false
+    },
+    {
+      "id": 7,
+      "prompt": "Create a presentation about our project",
+      "should_trigger": false
+    }
+  ]
+}
