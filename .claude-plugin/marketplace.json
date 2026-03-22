@@ -11,11 +11,7 @@
     {
       "name": "research-aggregation",
       "description": "3-phase knowledge aggregation: Breadth (Knowledge Graph + Zwicky Box) → Depth (targeted research) → Synthesis (combinations + decision trees).",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/research"
-      ]
+      "source": "./"
     }
   ]
 }
