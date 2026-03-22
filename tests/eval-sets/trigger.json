@@ -3,12 +3,12 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Analyze my knowledge base and find gaps",
+      "prompt": "Research battery storage technology for me",
       "should_trigger": true
     },
     {
       "id": 2,
-      "prompt": "What combinations exist between my documents?",
+      "prompt": "Find out what experts say about renewable energy grids",
       "should_trigger": true
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "id": 4,
-      "prompt": "What is missing in my knowledge base?",
+      "prompt": "Deepen my knowledge on supply chain resilience",
       "should_trigger": true
     },
     {

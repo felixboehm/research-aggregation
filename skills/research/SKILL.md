@@ -1,51 +1,46 @@
 ---
 name: research
-description: Systematic knowledge aggregation and synthesis in 3 phases. Use this skill when the user wants to analyze their knowledge base, find gaps, discover combinations, or conduct deep research. Also for prompts like "what is missing?", "what combinations exist?", "analyze the knowledge base", "find connections", "create a Knowledge Graph", or "which topics are related?".
+description: Research a topic by gathering knowledge from existing documents and web sources. Integrates findings into the knowledge base. Use this skill when the user wants to research, investigate, learn about, or deepen understanding of a specific topic. Also for "research X", "find out about X", "what do experts say about X", "deepen my knowledge on X", or "explore topic X".
 ---
 
-# Research Aggregation
+# Research – Knowledge Gathering & Integration
 
-Systematic knowledge aggregation in 3 phases: Breadth → Depth → Synthesis.
+Actively research a topic: scan existing knowledge documents, search the web for new sources, and integrate findings into the knowledge base. Idempotent — automatically adapts based on how much is already known.
 
-## Overview
-
-This skill analyzes a knowledge base (Markdown documents) and produces:
-- **Knowledge Graph** (concepts + relationships)
-- **Morphological Box** (systematic combination matrix)
-- **Gap Matrix** (what is missing?)
-- **Combination Strategies** (calculated multi-topic approaches)
-- **Decision Trees** (if-then decision trees)
-
-## Invocation Modes
-
-The user can invoke the skill with different arguments:
+## Invocation
 
 | Invocation | Action |
 |---|---|
-| `/research` | Show status, suggest next step |
-| `/research breadth` | Phase 1: Aggregation – Graph + Zwicky + Gaps |
-| `/research depth TOPIC` | Phase 2: Deep-dive into a topic |
-| `/research synthesis` | Phase 3: Combinations + Decision Trees |
-| `/research gaps` | Show / update gap matrix |
-| `/research combi A+B` | Calculate a specific combination |
+| `/research TOPIC` | Research a topic — broad if new, deeper if knowledge exists |
+| `/research` (no args) | Suggest what to research next based on current gaps |
 
-## Phase 1: Breadth (Aggregation)
+## `/research TOPIC` — Idempotent Research
 
-### Goal
-Complete extraction of all concepts and relationships from the knowledge base.
+### Step 1: Assess knowledge state
 
-### Procedure
+Check the current state of knowledge about TOPIC:
+
+1. Does `synthesis/graph/nodes.yaml` exist?
+2. Does TOPIC match any existing node IDs or names? (fuzzy match — "battery" matches "battery-storage")
+3. How many edges connect to TOPIC-related nodes?
+4. Is TOPIC mentioned in `synthesis/gaps/gap-matrix.md` or `synthesis/gaps/research-questions.md`?
+
+### Step 2: Adapt behavior based on state
+
+#### A) No graph exists (first run ever)
+
+This is the initial knowledge base setup. Perform a full scan:
 
 1. **Identify knowledge base**
    - Search for `wissen/` or similar directories with Markdown documents
    - If not found: Ask the user for the path
 
-2. **Extract concepts** (Grounded Theory – open coding)
+2. **Extract concepts** (Grounded Theory — open coding)
    - Read each document
    - Identify: strategies, mechanisms, constraints, risks, roles
    - Per concept: id, name, type, sources, references, tags, summary
 
-3. **Discover relationships** (Grounded Theory – axial coding)
+3. **Discover relationships** (Grounded Theory — axial coding)
    - For each concept pair: Is there a relationship?
    - 6 edge types: supports, conflicts, requires, amplifies, activates, limits
    - Per edge: strength (weak/medium/strong), description, condition
@@ -58,75 +53,57 @@ Complete extraction of all concepts and relationships from the knowledge base.
    - Zwicky matrix: Which cells are covered by documents?
    - Graph: Are there isolated nodes? Missing expected edges?
 
-6. **Save outputs**
+6. **Save initial outputs**
    - `synthesis/graph/nodes.yaml`
    - `synthesis/graph/edges.yaml`
    - `synthesis/zwicky/dimensions.yaml`
    - `synthesis/zwicky/matrix.md`
    - `synthesis/gaps/gap-matrix.md`
-   - `synthesis/runs/DATE-breadth/run.yaml` + `delta.md` + `insights.md`
 
-Read the templates under `${CLAUDE_PLUGIN_ROOT}/templates/` for the exact formats.
+7. **Then research TOPIC** — continue with web research (see section B or C below, depending on how much was found in the docs)
 
-## Phase 2: Depth (Deep-Dive)
+Read the templates under `${CLAUDE_PLUGIN_ROOT}/templates/` for the exact output formats.
 
-### Goal
-Targeted deepening of a topic from the gap matrix.
+#### B) TOPIC is new or sparse (< 2 nodes, < 3 edges about TOPIC)
 
-### Procedure
+Broad web research to establish knowledge:
 
-1. If no TOPIC given: Show the top-5 gaps from `synthesis/gaps/gap-matrix.md`
-2. Research targeted (WebSearch for authoritative sources, academic papers, industry reports)
-3. Integrate results into existing or new knowledge documents
-4. Update Knowledge Graph (new nodes/edges)
-5. Fill affected Zwicky cells
+1. **Web research** — search for authoritative sources on TOPIC
+   - Academic papers, industry reports, expert analyses
+   - Assess source quality: Academic paper > Industry report > Expert analysis > Trade publication > Anecdotal report
+   - Document each source with date, reference ID, and quality assessment
+2. **Create knowledge documents** — write new `wissen/*.md` files with findings
+3. **Update graph** — add new nodes and edges to existing graph
+4. **Update Zwicky** — add new options to relevant dimensions, or create new dimensions
+5. **Update gaps** — re-assess gap matrix with new knowledge
 
-### Assess Source Quality
-- Academic paper > Industry report > Expert analysis > Trade publication > Anecdotal report
-- Document each source with date, reference ID, and quality assessment
+#### C) TOPIC is well-covered (>= 2 nodes, >= 3 edges)
 
-### Outputs
-- Updated/new `wissen/*.md`
-- Updated graph
-- `synthesis/runs/DATE-depth-TOPIC/run.yaml` + `sources.md` + `insights.md`
+Targeted deep research to fill specific gaps:
 
-## Phase 3: Synthesis (Combinatorics)
+1. **Check gaps** — read `synthesis/gaps/gap-matrix.md` and `synthesis/gaps/research-questions.md` for open questions about TOPIC
+2. **Deep research** — search for specific answers to open questions
+   - Follow references from existing sources
+   - Look for contrasting viewpoints and recent developments
+   - Assess source quality (same hierarchy as section B)
+3. **Update existing nodes** — add new references, refine summaries
+4. **Add new edges** — document relationships discovered through deeper understanding
+5. **Fill Zwicky cells** — address specific unfilled cells related to TOPIC
 
-### Goal
-From the Knowledge Graph and Morphological Box, derive combination strategies and Decision Trees.
+### Step 3: Log the run
 
-### Procedure
+Every invocation creates a run entry:
+- `synthesis/runs/DATE-research-TOPIC/run.yaml`
+- `synthesis/runs/DATE-research-TOPIC/sources.md` (sources found and quality assessment)
+- `synthesis/runs/DATE-research-TOPIC/insights.md` (key findings and surprises)
 
-1. **Identify synergies**
-   - Graph edges of type `amplifies`: Which concepts create disproportionate impact together?
-   - Chains: A amplifies B amplifies C → three-stage strategy
+## `/research` (no args) — Suggest Next Topics
 
-2. **Cross-Impact Analysis**
-   - For the top-20 concepts: Pairwise impact assessment (-3 to +3)
-   - Calculate active/passive sums
-   - Result in `synthesis/graph/views/cross-impact.md`
+When invoked without a topic:
 
-3. **Calculate combinations**
-   - For each promising 2-way/3-way combination:
-     - Worked example with concrete numbers
-     - If the project has domain agents (@steuerberater etc.): Have all evaluate in parallel
-     - Document conflicts between perspectives
-   - Save as `synthesis/combinations/combi-XX-name.md`
-
-4. **Derive Decision Trees**
-   - Per main decision (e.g., "Which location type?")
-   - If-then structure with references to combinations and sources
-   - Save as `synthesis/decision-trees/dt-XX-name.md`
-
-5. **Update research questions**
-   - What remains open? What new questions did the synthesis raise?
-
-### Outputs
-- `synthesis/combinations/combi-*.md`
-- `synthesis/decision-trees/dt-*.md`
-- `synthesis/graph/views/cross-impact.md`
-- `synthesis/gaps/research-questions.md` (updated)
-- `synthesis/runs/DATE-synthesis/run.yaml` + `new-combinations.md` + `insights.md`
+1. **If no graph exists**: scan all knowledge documents, build the graph, then list the topics found and suggest which to research further
+2. **If graph exists**: read `synthesis/gaps/gap-matrix.md` and the graph, then suggest the top 3–5 topics worth researching next, ordered by priority
+3. Keep output brief and actionable — this is NOT a full status report (use `/analyse` for that)
 
 ## Create Synthesis Directory
 
@@ -138,6 +115,6 @@ On first invocation: Create the directory structure `synthesis/` in the project 
 - YAML must be valid (observe required fields, see templates)
 - Each run creates an entry under `synthesis/runs/`
 - Node IDs in kebab-case, unique
-- Edges only with the 6 allowed types
-- Worked examples with concrete numbers, label assumptions
-- Decision Trees with source references
+- Edges only with the 6 allowed types: supports, conflicts, requires, amplifies, activates, limits
+- Source quality must be assessed and documented
+- When deepening: preserve existing nodes/edges, add to them — never delete or overwrite previous research
