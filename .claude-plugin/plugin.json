@@ -1,7 +1,7 @@
 {
   "name": "research-aggregation",
-  "description": "Systematic knowledge aggregation and synthesis: Knowledge Graph, Morphological Analysis, Cross-Impact, Decision Trees. Three skills (/research, /analyse, /synthesis) plus a @synthesizer agent.",
-  "version": "1.0.0",
+  "description": "Systematic knowledge aggregation and synthesis: Knowledge Graph, Morphological Analysis, Cross-Impact, Decision Trees. Three skills (/research, /analyse, /synthesis) plus @researcher and @synthesizer agents.",
+  "version": "1.1.0",
   "author": {
     "name": "Felix Boehm",
     "url": "https://github.com/felixboehm"
