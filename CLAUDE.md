@@ -6,9 +6,10 @@ Systematic knowledge aggregation and synthesis for knowledge-base projects.
 
 From isolated knowledge documents, systematically generate connections, combinations, and new insights.
 
-## Skill
+## Skills
 
 - `/research-aggregation:research` – 3-phase pipeline (Breadth → Depth → Synthesis)
+- `/research-aggregation:synthesis` – Combinations, decision trees, cross-impact analysis from existing knowledge
 
 ## Agent
 
