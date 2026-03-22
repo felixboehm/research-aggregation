@@ -1,12 +1,21 @@
 {
   "name": "research-aggregation",
-  "description": "Systematic knowledge aggregation and synthesis: Breadth → Depth → Combinatorics. Morphological analysis, Knowledge Graph, Cross-Impact, Decision Trees.",
-  "version": "0.1.0",
+  "description": "Systematic knowledge aggregation and synthesis: Knowledge Graph, Morphological Analysis, Cross-Impact, Decision Trees. Three skills (/research, /analyse, /synthesis) plus a @synthesizer agent.",
+  "version": "1.0.0",
   "author": {
     "name": "Felix Boehm",
     "url": "https://github.com/felixboehm"
   },
   "repository": "https://github.com/felixboehm/research-aggregation",
   "license": "MIT",
-  "keywords": ["research", "knowledge-graph", "synthesis", "morphological-analysis", "cross-impact", "decision-trees"]
+  "keywords": [
+    "research",
+    "knowledge-graph",
+    "synthesis",
+    "morphological-analysis",
+    "cross-impact",
+    "decision-trees",
+    "grounded-theory",
+    "knowledge-management"
+  ]
 }
