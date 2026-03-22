@@ -37,8 +37,9 @@ Phase 1: BREADTH (Aggregation)
 └── Result: Complete picture of documented knowledge
 
 Phase 2: DEPTH (Deep-Dive)
-├── Prioritized gaps from Phase 1
-├── Targeted research (WebSearch, authoritative sources)
+├── Discover available research skills from installed plugins
+├── Spawn @researcher agent for skill-assisted parallel research
+├── Complement with web research (WebSearch, authoritative sources)
 ├── Add operational details (formulas, sources, thresholds)
 ├── Extend Knowledge Graph
 └── Result: Deepened, source-backed knowledge base

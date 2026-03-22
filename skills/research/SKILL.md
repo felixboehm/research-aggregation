@@ -5,7 +5,7 @@ description: Research a topic by gathering knowledge from existing documents and
 
 # Research – Knowledge Gathering & Integration
 
-Actively research a topic: scan existing knowledge documents, search the web for new sources, and integrate findings into the knowledge base. Idempotent — automatically adapts based on how much is already known.
+Actively research a topic: scan existing knowledge documents, discover and use available research skills from installed plugins, search the web for new sources, and integrate findings into the knowledge base. Idempotent — automatically adapts based on how much is already known.
 
 ## Invocation
 
@@ -24,6 +24,32 @@ Check the current state of knowledge about TOPIC:
 2. Does TOPIC match any existing node IDs or names? (fuzzy match — "battery" matches "battery-storage")
 3. How many edges connect to TOPIC-related nodes?
 4. Is TOPIC mentioned in `synthesis/gaps/gap-matrix.md` or `synthesis/gaps/research-questions.md`?
+
+### Step 1.5: Discover available research skills
+
+Before researching, check if other installed plugins provide skills that can help gather knowledge on TOPIC.
+
+1. **Scan for installed skills** — run a single Grep to find all skill descriptions:
+   ```
+   Grep(pattern="^description:", path="~/.claude/plugins/cache/", glob="**/SKILL.md", output_mode="content")
+   ```
+   Also check the project's `.claude/skills/*/SKILL.md` for local skills.
+
+2. **Match relevant skills** — from the discovered descriptions, select skills relevant to TOPIC:
+   - **Generic research skills** (useful for any topic): skills with names/descriptions matching literature-review, research-lookup, brainstorming, hypothesis-generation, web-search, etc.
+   - **Domain-specific skills**: skills whose description matches TOPIC's domain (e.g., `pubmed-database` for biomedical topics, `arxiv-database` for physics/CS, `fred-economic-data` for economics)
+
+3. **Extract qualified names** — from each file path, derive the invocation name:
+   - Plugin name: the directory segment after `cache/{repo-name}/` (e.g., `scientific-skills`)
+   - Skill name: the parent directory of SKILL.md (e.g., `literature-review`)
+   - Qualified name: `{plugin-name}:{skill-name}` (e.g., `scientific-skills:literature-review`)
+
+4. **Apply rules**:
+   - **Skip own skills**: exclude anything from the `research-aggregation` plugin (prevent recursion)
+   - **Flag API requirements**: if a skill's frontmatter contains `compatibility:`, note it — the skill may need API keys
+   - **Cap at 5 skills** maximum to avoid context bloat
+
+5. **If no relevant skills found**: proceed with web-only research (current behavior). This is fine — skill discovery is an enhancement, not a requirement.
 
 ### Step 2: Adapt behavior based on state
 
@@ -66,29 +92,38 @@ Read the templates under `${CLAUDE_PLUGIN_ROOT}/templates/` for the exact output
 
 #### B) TOPIC is new or sparse (< 2 nodes, < 3 edges about TOPIC)
 
-Broad web research to establish knowledge:
+Broad research to establish knowledge:
 
-1. **Web research** — search for authoritative sources on TOPIC
+1. **Skill-assisted research** (if relevant skills were discovered in Step 1.5)
+   - Spawn the `@researcher` agent with TOPIC and the list of discovered skills
+   - The agent invokes each skill in parallel and consolidates findings
+   - If a skill fails (missing API key, error), the agent logs it and continues
+2. **Web research** — search for authoritative sources on TOPIC to complement skill results
+   - Focus on aspects NOT already covered by skill-based research
    - Academic papers, industry reports, expert analyses
    - Assess source quality: Academic paper > Industry report > Expert analysis > Trade publication > Anecdotal report
    - Document each source with date, reference ID, and quality assessment
-2. **Create knowledge documents** — write new `wissen/*.md` files with findings
-3. **Update graph** — add new nodes and edges to existing graph
-4. **Update Zwicky** — add new options to relevant dimensions, or create new dimensions
-5. **Update gaps** — re-assess gap matrix with new knowledge
+3. **Create knowledge documents** — write new `wissen/*.md` files with findings from both skill and web research
+4. **Update graph** — add new nodes and edges to existing graph
+5. **Update Zwicky** — add new options to relevant dimensions, or create new dimensions
+6. **Update gaps** — re-assess gap matrix with new knowledge
 
 #### C) TOPIC is well-covered (>= 2 nodes, >= 3 edges)
 
 Targeted deep research to fill specific gaps:
 
 1. **Check gaps** — read `synthesis/gaps/gap-matrix.md` and `synthesis/gaps/research-questions.md` for open questions about TOPIC
-2. **Deep research** — search for specific answers to open questions
+2. **Skill-assisted deep research** (if relevant skills were discovered in Step 1.5)
+   - Spawn the `@researcher` agent with TOPIC, the open research questions, and the list of discovered skills
+   - Database and search skills are especially useful for answering specific questions (e.g., `arxiv-database` for finding papers, `pubmed-database` for biomedical evidence)
+   - The agent returns consolidated findings with source quality assessments
+3. **Web research** — search for specific answers to remaining open questions
    - Follow references from existing sources
    - Look for contrasting viewpoints and recent developments
    - Assess source quality (same hierarchy as section B)
-3. **Update existing nodes** — add new references, refine summaries
-4. **Add new edges** — document relationships discovered through deeper understanding
-5. **Fill Zwicky cells** — address specific unfilled cells related to TOPIC
+4. **Update existing nodes** — add new references, refine summaries
+5. **Add new edges** — document relationships discovered through deeper understanding
+6. **Fill Zwicky cells** — address specific unfilled cells related to TOPIC
 
 ### Step 3: Log the run
 
@@ -96,6 +131,22 @@ Every invocation creates a run entry:
 - `synthesis/runs/DATE-research-TOPIC/run.yaml`
 - `synthesis/runs/DATE-research-TOPIC/sources.md` (sources found and quality assessment)
 - `synthesis/runs/DATE-research-TOPIC/insights.md` (key findings and surprises)
+
+The `run.yaml` must include a `discovered-skills` section when skills were scanned:
+
+```yaml
+discovered-skills:
+  - name: scientific-skills:literature-review
+    relevance: "Systematic literature review for TOPIC"
+    used: true
+    result: "Found 12 relevant papers"
+  - name: scientific-skills:perplexity-search
+    relevance: "AI-powered web search"
+    used: false
+    reason: "Requires OPENROUTER_API_KEY"
+```
+
+If no skills were discovered, set `discovered-skills: []`.
 
 ## `/research` (no args) — Suggest Next Topics
 

@@ -12,8 +12,9 @@ From isolated knowledge documents, systematically generate connections, combinat
 - `/research-aggregation:analyse` – Read-only knowledge base status, gap analysis, coverage report
 - `/research-aggregation:synthesis` – Combinations, decision trees, cross-impact analysis from existing knowledge
 
-## Agent
+## Agents
 
+- `@researcher` – Discovers and uses available skills from installed plugins for parallel research
 - `@synthesizer` – Meta-analyst for Cross-Impact, Morphology, and Graph analysis
 
 ## Outputs
