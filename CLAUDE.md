@@ -9,6 +9,7 @@ From isolated knowledge documents, systematically generate connections, combinat
 ## Skills
 
 - `/research-aggregation:research` – 3-phase pipeline (Breadth → Depth → Synthesis)
+- `/research-aggregation:analyse` – Read-only knowledge base status, gap analysis, coverage report
 - `/research-aggregation:synthesis` – Combinations, decision trees, cross-impact analysis from existing knowledge
 
 ## Agent
