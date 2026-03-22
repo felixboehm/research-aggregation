@@ -36,7 +36,7 @@ Idempotent topic research that adapts based on existing knowledge.
 | `/research TOPIC` | Research a topic — broad if new, deeper if knowledge exists |
 | `/research` | Suggest what to research next based on current gaps |
 
-On first run, scans all knowledge documents and builds the Knowledge Graph + Morphological Box. On subsequent runs, deepens existing knowledge with web research.
+On first run, scans all knowledge documents and builds the Knowledge Graph + Morphological Box. On subsequent runs, deepens existing knowledge using discovered skills from installed plugins (e.g., `scientific-skills:literature-review`, `scientific-skills:arxiv-database`) and web research.
 
 ### `/analyse` — Knowledge Base Status
 
@@ -59,6 +59,7 @@ From the Knowledge Graph and Morphological Box, derive strategies and decision a
 
 ## Agent
 
+- **`@researcher`** — Research executor that discovers and uses available skills from installed plugins. Invokes relevant skills (literature review, database searches, etc.) in parallel and consolidates findings.
 - **`@synthesizer`** — Meta-analyst for Cross-Impact, Morphology, and Graph analysis. Read-only analytical agent that identifies patterns, synergies, and conflicts.
 
 ## Pipeline
@@ -67,12 +68,14 @@ From the Knowledge Graph and Morphological Box, derive strategies and decision a
 /research               /analyse              /synthesis
 ┌──────────────┐    ┌──────────────┐    ┌──────────────────────┐
 │ Scan docs    │    │ Graph stats  │    │ Graph Analysis       │
-│ Web research │    │ Coverage %   │    │ Cross-Impact         │
-│              │    │ Gap matrix   │    │ Combinations         │
-│ → Graph      │    │ Run history  │    │ Decision Trees       │
+│ Discover     │    │ Coverage %   │    │ Cross-Impact         │
+│  skills      │    │ Gap matrix   │    │ Combinations         │
+│ @researcher  │    │ Run history  │    │ Decision Trees       │
+│ Web research │    │              │    │                      │
+│              │    │ → Status     │    │ → New Insights       │
+│ → Graph      │    │ → Next steps │    │ → Strategies         │
 │ → Zwicky     │    │              │    │                      │
-│ → Gaps       │    │ → Status     │    │ → New Insights       │
-│ → Knowledge  │    │ → Next steps │    │ → Strategies         │
+│ → Knowledge  │    │              │    │                      │
 └──────────────┘    └──────────────┘    └──────────────────────┘
     writes              reads               reads + writes
 ```
