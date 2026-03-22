@@ -1,0 +1,40 @@
+{
+  "skill_name": "analyse",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What do we know so far?",
+      "should_trigger": true
+    },
+    {
+      "id": 2,
+      "prompt": "What is missing in my knowledge base?",
+      "should_trigger": true
+    },
+    {
+      "id": 3,
+      "prompt": "Show me the gaps in my research",
+      "should_trigger": true
+    },
+    {
+      "id": 4,
+      "prompt": "Analyze the knowledge base status",
+      "should_trigger": true
+    },
+    {
+      "id": 5,
+      "prompt": "How complete is the knowledge graph?",
+      "should_trigger": true
+    },
+    {
+      "id": 6,
+      "prompt": "Research battery storage technology",
+      "should_trigger": false
+    },
+    {
+      "id": 7,
+      "prompt": "Generate combination strategies from my research",
+      "should_trigger": false
+    }
+  ]
+}

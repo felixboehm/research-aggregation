@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Run /research breadth on the directory tests/fixtures/",
+      "prompt": "Run /research coffee-shop-strategy on the directory tests/fixtures/",
       "expected_output": "Knowledge Graph with nodes and edges, Zwicky dimensions, gap matrix",
       "assertions": [
         {

@@ -1,0 +1,40 @@
+{
+  "skill_name": "synthesis",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What combinations exist between my documents?",
+      "should_trigger": true
+    },
+    {
+      "id": 2,
+      "prompt": "Generate combination strategies from my research",
+      "should_trigger": true
+    },
+    {
+      "id": 3,
+      "prompt": "Create decision trees from the knowledge graph",
+      "should_trigger": true
+    },
+    {
+      "id": 4,
+      "prompt": "Which strategies work well together?",
+      "should_trigger": true
+    },
+    {
+      "id": 5,
+      "prompt": "Perform a cross-impact analysis",
+      "should_trigger": true
+    },
+    {
+      "id": 6,
+      "prompt": "Research battery storage technology",
+      "should_trigger": false
+    },
+    {
+      "id": 7,
+      "prompt": "What is missing in my knowledge base?",
+      "should_trigger": false
+    }
+  ]
+}
