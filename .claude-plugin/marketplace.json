@@ -10,17 +10,12 @@
   "plugins": [
     {
       "name": "research-aggregation",
-      "source": ".",
-      "description": "3-phase knowledge aggregation: Breadth (Knowledge Graph + Zwicky Box) → Depth (targeted research) → Synthesis (combinations + decision trees). Uses Morphological Analysis, Cross-Impact Analysis, and Grounded Theory.",
-      "version": "0.1.0",
-      "author": {
-        "name": "Felix Boehm"
-      },
-      "homepage": "https://github.com/felixboehm/research-aggregation",
-      "repository": "https://github.com/felixboehm/research-aggregation",
-      "license": "MIT",
-      "keywords": ["research", "knowledge-graph", "synthesis", "morphological-analysis", "cross-impact", "decision-trees"],
-      "category": "research"
+      "description": "3-phase knowledge aggregation: Breadth (Knowledge Graph + Zwicky Box) → Depth (targeted research) → Synthesis (combinations + decision trees).",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/research"
+      ]
     }
   ]
 }
