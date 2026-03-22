@@ -1,17 +1,35 @@
 {
   "name": "research-aggregation",
   "owner": {
-    "name": "Felix Boehm"
-  },
-  "metadata": {
-    "description": "Systematic knowledge aggregation and synthesis plugin for Claude Code",
-    "version": "1.0.0"
+    "name": "Felix Boehm",
+    "url": "https://github.com/felixboehm"
   },
   "plugins": [
     {
       "name": "research-aggregation",
-      "description": "3-phase knowledge aggregation: Breadth (Knowledge Graph + Zwicky Box) → Depth (targeted research) → Synthesis (combinations + decision trees).",
-      "source": "./"
+      "description": "3-skill knowledge aggregation plugin: /research (gather & integrate), /analyse (read-only status & gaps), /synthesis (combinations & decision trees). Includes @synthesizer agent for Cross-Impact and Morphological analysis.",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "Felix Boehm"
+      },
+      "repository": "https://github.com/felixboehm/research-aggregation",
+      "license": "MIT",
+      "keywords": [
+        "research",
+        "knowledge-graph",
+        "synthesis",
+        "morphological-analysis",
+        "cross-impact",
+        "decision-trees"
+      ],
+      "category": "research",
+      "tags": [
+        "knowledge-management",
+        "grounded-theory",
+        "systematic-review",
+        "gap-analysis"
+      ]
     }
   ]
 }

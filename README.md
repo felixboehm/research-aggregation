@@ -1,6 +1,6 @@
 # Research Aggregation
 
-Claude Code Plugin for systematic knowledge aggregation and synthesis.
+Claude Code plugin for systematic knowledge aggregation and synthesis.
 
 ## What It Does
 
@@ -14,37 +14,67 @@ From a collection of isolated knowledge documents, systematically:
 ## Installation
 
 ```bash
-# Install as plugin
+# From the official marketplace
 claude plugin install research-aggregation
 
-# Or for development
+# From GitHub
+claude plugin marketplace add felixboehm/research-aggregation
+claude plugin install research-aggregation:research-aggregation
+
+# For development
 claude --plugin-dir /path/to/research-aggregation
 ```
 
-## Usage
+## Skills
+
+### `/research` — Knowledge Gathering & Integration
+
+Idempotent topic research that adapts based on existing knowledge.
+
+| Invocation | Action |
+|---|---|
+| `/research TOPIC` | Research a topic — broad if new, deeper if knowledge exists |
+| `/research` | Suggest what to research next based on current gaps |
+
+On first run, scans all knowledge documents and builds the Knowledge Graph + Morphological Box. On subsequent runs, deepens existing knowledge with web research.
+
+### `/analyse` — Knowledge Base Status
+
+Read-only inspection: what is known, what is missing, how complete the graph is.
+
+| Invocation | Action |
+|---|---|
+| `/analyse` | Full status report (graph stats, coverage, gaps, history) |
+| `/analyse gaps` | Focus on gap matrix only |
+| `/analyse graph` | Focus on knowledge graph statistics only |
+
+### `/synthesis` — Combinations & Decision Trees
+
+From the Knowledge Graph and Morphological Box, derive strategies and decision aids.
+
+| Invocation | Action |
+|---|---|
+| `/synthesis` | Full synthesis: synergies, cross-impact, combinations, decision trees |
+| `/synthesis A+B` | Calculate a specific combination of concepts A and B |
+
+## Agent
+
+- **`@synthesizer`** — Meta-analyst for Cross-Impact, Morphology, and Graph analysis. Read-only analytical agent that identifies patterns, synergies, and conflicts.
+
+## Pipeline
 
 ```
-/research              → Show status + suggest next step
-/research breadth      → Phase 1: Aggregate knowledge base
-/research depth TOPIC  → Phase 2: Deep-dive into a topic
-/research synthesis    → Phase 3: Combinations + Decision Trees
-/research gaps         → Show gap matrix
-/research combi A+B    → Calculate a specific combination
-```
-
-## 3-Phase Pipeline
-
-```
-Phase 1: BREADTH         Phase 2: DEPTH           Phase 3: SYNTHESIS
+/research               /analyse              /synthesis
 ┌──────────────┐    ┌──────────────┐    ┌──────────────────────┐
-│ Read         │    │ Research     │    │ Graph Analysis       │
-│ documents    │    │ gaps         │    │ Cross-Impact         │
-│              │    │              │    │ Combinations         │
-│ → Graph      │    │ → Deeper     │    │ Decision Trees       │
-│ → Zwicky     │    │   documents  │    │                      │
-│ → Gaps       │    │ → Extend     │    │ → New Insights       │
-│              │    │   graph      │    │ → Strategies         │
+│ Scan docs    │    │ Graph stats  │    │ Graph Analysis       │
+│ Web research │    │ Coverage %   │    │ Cross-Impact         │
+│              │    │ Gap matrix   │    │ Combinations         │
+│ → Graph      │    │ Run history  │    │ Decision Trees       │
+│ → Zwicky     │    │              │    │                      │
+│ → Gaps       │    │ → Status     │    │ → New Insights       │
+│ → Knowledge  │    │ → Next steps │    │ → Strategies         │
 └──────────────┘    └──────────────┘    └──────────────────────┘
+    writes              reads               reads + writes
 ```
 
 ## Outputs
@@ -62,11 +92,11 @@ All results under `synthesis/` in the target project:
 
 ## Scientific Methods
 
-- **Morphological Analysis** (Fritz Zwicky) – Systematic combination matrix
-- **Knowledge Graph** – Concepts + relationships (6 edge types)
-- **Cross-Impact Analysis** (Gordon/Helmer) – Lever and indicator concepts
-- **Grounded Theory** – Bottom-up concept extraction
-- **Systematic Literature Review** – Structured deep research
+- **Morphological Analysis** (Fritz Zwicky) — Systematic combination matrix
+- **Knowledge Graph** — Concepts + relationships (6 edge types)
+- **Cross-Impact Analysis** (Gordon/Helmer) — Lever and indicator concepts
+- **Grounded Theory** — Bottom-up concept extraction
+- **Systematic Literature Review** — Structured deep research
 
 See `docs/methoden.md` for details.
 
@@ -76,7 +106,7 @@ See `docs/methoden.md` for details.
 # Structure validation
 bash tests/validate.sh synthesis/
 
-# With Anthropic skill-creator eval framework
+# With eval framework
 python -m scripts.run_eval --eval-set tests/eval-sets/trigger.json --skill-path skills/research/
 ```
 
