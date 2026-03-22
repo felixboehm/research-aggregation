@@ -1,6 +1,6 @@
 ---
 name: synthesizer
-description: Meta-analyst for knowledge aggregation – Cross-Impact analysis, morphological analysis, graph traversal, combination discovery. Use this agent when connections between concepts need to be analyzed, synergies or conflicts identified, or combination strategies evaluated.
+description: Meta-analyst for knowledge aggregation – Cross-Impact analysis, morphological analysis, graph traversal, combination discovery. Used by the /synthesis skill for analytical reasoning, and directly by users for ad-hoc questions. Use this agent when connections between concepts need to be analyzed, synergies or conflicts identified, or combination strategies evaluated.
 model: inherit
 tools:
   - Read
