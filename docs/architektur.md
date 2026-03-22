@@ -4,23 +4,22 @@
 
 ```
 ┌──────────────────────────────────────────────────┐
-│                  /research Skill                  │
-│  (Orchestrator – 3 Phases)                       │
-├──────────┬──────────┬────────────────────────────┤
-│ Phase 1  │ Phase 2  │ Phase 3                    │
-│ BREADTH  │ DEPTH    │ SYNTHESIS                  │
-│          │          │                            │
-│ Reads    │ WebSearch│ @synthesizer Agent          │
-│ wissen/* │ Sources  │ Cross-Impact               │
-│          │          │ Combinations               │
-│ Creates  │ Extends  │ Decision Trees             │
-│ Graph    │ Graph    │                            │
-│ Zwicky   │ Knowledge│ Uses domain agents          │
-│ Gaps     │          │ (if present in project)    │
-└──────┬───┴────┬─────┴──────────┬─────────────────┘
-       │        │                │
-       ▼        ▼                ▼
-┌──────────────────────────────────────────────────┐
+│                    3 Skills                       │
+├────────────────┬───────────────┬─────────────────┤
+│  /research     │  /analyse     │  /synthesis      │
+│                │               │                  │
+│  Gathers NEW   │  Read-only    │  Derives new     │
+│  knowledge     │  status &     │  strategies      │
+│                │  gap report   │                  │
+│  Reads docs    │               │  @synthesizer    │
+│  WebSearch     │  Reads        │  Agent           │
+│  Sources       │  synthesis/*  │  Cross-Impact    │
+│                │               │  Combinations    │
+│  Creates/      │  NO writes    │  Decision Trees  │
+│  extends       │               │                  │
+│  Graph + Docs  │               │  Uses domain     │
+│                │               │  agents (if any) │
+├────────────────┴───────────────┴─────────────────┤
 │              synthesis/ (in target project)       │
 │                                                  │
 │  graph/          zwicky/         combinations/   │
@@ -36,33 +35,44 @@
 
 ## Data Flow
 
-### Phase 1: Breadth → Aggregation
+### /research TOPIC — Idempotent Knowledge Gathering
 
 ```
-wissen/*.md ──Read──▶ Concept Extraction ──▶ nodes.yaml
-                      (Grounded Theory)       edges.yaml
-                                              dimensions.yaml
-                                              gap-matrix.md
+First run (no graph exists):
+  wissen/*.md ──Read──▶ Concept Extraction ──▶ nodes.yaml
+                        (Grounded Theory)       edges.yaml
+                                                dimensions.yaml
+                                                gap-matrix.md
+                           │
+                           ▼
+                     WebSearch for TOPIC ──▶ wissen/*.md (new)
+                                             nodes.yaml (extended)
+
+Subsequent runs (topic sparse):
+  gap-matrix.md ──▶ Broad WebSearch ──▶ wissen/*.md (new)
+                    on TOPIC              nodes.yaml (extended)
+                                          edges.yaml (extended)
+
+Subsequent runs (topic well-covered):
+  gaps/questions.md ──▶ Targeted Deep Research ──▶ wissen/*.md (updated)
+                        on specific gaps            nodes.yaml (refined)
+                                                    edges.yaml (extended)
 ```
 
-The skill reads all knowledge documents, extracts concepts as nodes and their relationships as edges. In parallel, dimensions for the Morphological Box are derived from the data.
-
-### Phase 2: Depth → Deep-Dive
+### /analyse — Read-Only Status Report
 
 ```
-gap-matrix.md ──Prioritize──▶ Research Question
-                                      │
-                                WebSearch / Sources
-                                      │
-                                      ▼
-                              wissen/*.md (extended)
-                              nodes.yaml (extended)
-                              edges.yaml (extended)
+synthesis/graph/   ──▶ Graph statistics (node/edge counts, density)
+synthesis/zwicky/  ──▶ Coverage report (filled vs. unfilled cells)
+synthesis/gaps/    ──▶ Prioritized gap list
+synthesis/runs/    ──▶ Research history timeline
+                          │
+                          ▼
+                    Suggested next actions
+                    (NO file writes)
 ```
 
-Targeted research on prioritized gaps. Results flow back into the knowledge base and the graph.
-
-### Phase 3: Synthesis → Combinatorics
+### /synthesis — Combinations & Decision Trees
 
 ```
 nodes.yaml  ─┐
@@ -130,12 +140,12 @@ Each examined combination is documented as its own Markdown file with:
 
 ## Run Logging
 
-Each `/research` run creates an entry under `synthesis/runs/`:
+Each skill run creates an entry under `synthesis/runs/`:
 
 ```yaml
 # run.yaml
-phase: breadth | depth | synthesis
-topic: string | null           # For Phase 2: Which topic?
+skill: research | synthesis
+topic: string | null           # For /research: Which topic?
 date: ISO-8601
 duration_minutes: number
 new_nodes: number
@@ -157,4 +167,8 @@ claude plugin install research-aggregation
 claude --plugin-dir /path/to/research-aggregation
 ```
 
-After installation, `/research-aggregation:research` is available as a skill.
+After installation, the following are available:
+- `/research-aggregation:research` — research topics
+- `/research-aggregation:analyse` — knowledge base status
+- `/research-aggregation:synthesis` — combinations & strategies
+- `@synthesizer` — meta-analysis agent
