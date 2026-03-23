@@ -24,7 +24,7 @@ With 7 dimensions x 5 options = 78,125 theoretical combinations. Reduction throu
 ### Principle
 Concepts are modeled as **nodes**, their relationships as **edges**. Edges have a type, a strength, and optionally a condition.
 
-### Edge Types (6 types)
+### Edge Types (8 types)
 | Type | Meaning | Example |
 |---|---|---|
 | `supports` | A makes B more effective | High foot traffic supports premium pricing |
@@ -33,6 +33,8 @@ Concepts are modeled as **nodes**, their relationships as **edges**. Edges have 
 | `amplifies` | A+B > A + B (synergy) | Corner location + outdoor seating |
 | `activates` | A unlocks B | Reaching break-even activates expansion planning |
 | `limits` | A constrains B | Small kitchen limits menu variety |
+| `backs` | A provides evidence for claim B | RCT data backs efficacy claim |
+| `rebuts` | A provides counter-evidence against B | New study rebuts dosage recommendation |
 
 ### Graph Analysis
 - **Centrality**: Which nodes have the most edges? (= key concepts)
@@ -40,7 +42,44 @@ Concepts are modeled as **nodes**, their relationships as **edges**. Edges have 
 - **Paths**: What chains of relationships exist? (A → B → C)
 - **Bridges**: Which nodes connect otherwise separate clusters?
 
-## 3. Cross-Impact Analysis (Gordon/Helmer, 1966)
+## 3. Toulmin Argumentation (Stephen Toulmin, 1958)
+
+### Principle
+Every claim should be backed by evidence, connected through a **warrant** (the reasoning principle), and accompanied by a **qualifier** (confidence level) and a **rebuttal** (conditions under which the claim fails). This makes reasoning explicit and auditable.
+
+### Application in the Plugin
+
+**Claim-level tracking** (on nodes):
+- **Qualifier**: gesichert (established) → hoch → mittel → niedrig → spekulativ (speculative)
+- **Claim type**: claim (testable assertion), evidence (data/observation), warrant (reasoning principle)
+- **Rebuttal**: What would invalidate this claim?
+- **Validates with**: How to test this claim (connects to the iteration cycle)
+
+**Reasoning-level tracking** (on edges):
+- **Warrant**: The reasoning principle justifying why the relationship exists
+- **Backs/Rebuts**: Specialized edge types for formal evidence trails — `backs` connects evidence to a claim, `rebuts` connects counter-evidence
+
+**Argument chains** (composite objects):
+- Multi-step reasoning paths across disciplines: A → B → C → conclusion
+- Per-link warrant and qualifier for each step
+- **Composite qualifier** = weakest link (a chain is only as strong as its weakest step)
+- **Provenance**: literature (found in sources), synthesis (constructed from multiple sources), hypothesis (proposed without direct evidence)
+- **Alternatives**: Competing chains explaining the same observation
+
+### Dependency Propagation
+When new data arrives (new node, updated qualifier, new backs/rebuts edge):
+1. Identify which claims are directly affected
+2. Trace downstream via `backs` edges — if claim A backs claim B, a change in A affects B
+3. Recompute argument chain composite qualifiers
+4. Flag chains where the weakest link has shifted
+
+### Why Toulmin-Light
+Full Toulmin (with formal data, warrant, backing, qualifier, rebuttal, claim structure per argument) is heavyweight for small teams. The "light" variant:
+- Makes qualifier and warrant **optional fields** on existing schema — no new document types required
+- Allows incremental adoption (add qualifiers to key claims first, formalize warrants later)
+- Captures 80% of the reasoning benefit with 20% of the modeling effort
+
+## 4. Cross-Impact Analysis (Gordon/Helmer, 1966)
 
 ### Principle
 For each concept pair: "If A is chosen/active, how does that affect B?" Scale: -3 (strongly negative) to +3 (strongly positive).
@@ -56,7 +95,7 @@ For each concept pair: "If A is chosen/active, how does that affect B?" Scale: -
 | Active high, Passive high | = **Critical** (key point, handle with care) |
 | Active low, Passive low | = **Buffer** (little influence, little influenced) |
 
-## 4. Systematic Literature Review (adapted)
+## 5. Systematic Literature Review (adapted)
 
 ### Protocol for Deep Research
 1. **Define research question** (from gap matrix)
@@ -75,7 +114,7 @@ For each concept pair: "If A is chosen/active, how does that affect B?" Scale: -
 | Trade publication | Medium | Check if current |
 | Anecdotal report | Low | Individual case, not generalizable |
 
-## 5. Grounded Theory (Glaser/Strauss, adapted)
+## 6. Grounded Theory (Glaser/Strauss, adapted)
 
 ### Application in Phase 1
 - **Open coding**: Identify all concepts from knowledge documents (bottom-up, not preconceived)
@@ -85,7 +124,7 @@ For each concept pair: "If A is chosen/active, how does that affect B?" Scale: -
 ### Principle
 The dimensions of the Morphological Box are not imposed top-down, but **emerge from the data**. Initial dimensions are a starting point, validated or adjusted through Phase 1.
 
-## 6. Meta-Analysis (quantitative)
+## 7. Meta-Analysis (quantitative)
 
 ### Application Across Test Scenarios
 If the target project has test scenarios:
