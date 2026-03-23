@@ -1,6 +1,6 @@
 ---
 name: analyse
-description: Analyse (or analyze) the knowledge base status. Read-only inspection of what is known, what is missing, and how complete the knowledge graph is. Use this skill when the user asks "what do we know?", "what is missing?", "show gaps", "knowledge base status", "analyze the knowledge base", "analyse my research", "how complete is the knowledge base?", or "show coverage".
+description: Analyse (or analyze) the knowledge base status. Read-only inspection of what is known, what is missing, and how complete the knowledge graph is. Includes argumentation health and argument chain analysis. Use this skill when the user asks "what do we know?", "what is missing?", "show gaps", "knowledge base status", "analyze the knowledge base", "analyse my research", "how complete is the knowledge base?", "show coverage", or "argumentation health".
 ---
 
 # Analyse – Knowledge Base Status
@@ -27,11 +27,37 @@ Read-only inspection of the current knowledge base. Reports what is known, what 
 Read `synthesis/graph/nodes.yaml` and `synthesis/graph/edges.yaml`:
 
 - **Node counts**: Total nodes, by type (strategy, mechanism, constraint, risk, role, structure)
-- **Edge counts**: Total edges, by type (supports, conflicts, requires, amplifies, activates, limits)
+- **Edge counts**: Total edges, by type (supports, conflicts, requires, amplifies, activates, limits, backs, rebuts)
 - **Connectivity**: Isolated nodes (0 edges), bridge nodes (connect clusters), most-connected nodes (top 5)
 - **Edge density**: edges / (nodes × (nodes-1) / 2) — how interconnected is the graph?
 
-### 3. Morphological Box Coverage
+### 3. Argumentation Health
+
+If any nodes have `qualifier` set (i.e., they are tracked claims):
+
+- **Claims by qualifier level**: Count distribution across gesichert / hoch / mittel / niedrig / spekulativ
+- **Unsupported claims** (red flag): Claims with `qualifier` set but no `backs` edges pointing to them — no formal evidence trail
+- **Claims without rebuttal** (yellow flag): Claims with `qualifier` set but `rebuttal` is null — untested assumptions
+- **Untested claims** (actionable): Claims with `validates_with` set but qualifier still niedrig or spekulativ — we know how to test but haven't
+- **Edges without warrant**: Count of edges (especially `backs` and `rebuts`) where `warrant` is null — unexplained relationships
+- **Stale claims**: Claims whose qualifier has not changed despite dependent data (backing/rebutting nodes) being updated
+
+If no nodes have `qualifier` set, skip this section silently.
+
+### 4. Argument Chain Health
+
+If `synthesis/graph/chains.yaml` exists:
+
+- **Chains by provenance**: Count of literature / synthesis / hypothesis chains
+- **Composite qualifier distribution**: Count across gesichert / hoch / mittel / niedrig / spekulativ
+- **Weakest links**: List the weakest links across all chains — these are the top research priorities
+- **Chains without alternatives** (single-explanation risk): Chains where `alternatives` is empty
+- **Cross-disciplinary innovation score**: Chains crossing 3+ disciplines (most novel insights)
+- **Alternative chain comparison**: Where alternatives exist, show relative qualifier ranking
+
+If no chains exist, skip this section silently.
+
+### 5. Morphological Box Coverage
 
 Read `synthesis/zwicky/dimensions.yaml` and `synthesis/zwicky/matrix.md`:
 
@@ -39,7 +65,7 @@ Read `synthesis/zwicky/dimensions.yaml` and `synthesis/zwicky/matrix.md`:
 - **Coverage**: Filled cells vs. unfilled cells (percentage)
 - **Sparse dimensions**: Dimensions with fewer than 2 options (need research)
 
-### 4. Gap Analysis
+### 6. Gap Analysis
 
 Read `synthesis/gaps/gap-matrix.md` and `synthesis/gaps/research-questions.md` (if exists):
 
@@ -47,7 +73,7 @@ Read `synthesis/gaps/gap-matrix.md` and `synthesis/gaps/research-questions.md` (
 - **Top 5 gaps**: Show the highest-priority gaps with their research questions
 - **Open research questions**: List unresolved questions from previous runs
 
-### 5. Research History
+### 7. Research History
 
 Read `synthesis/runs/` directory:
 
@@ -55,7 +81,7 @@ Read `synthesis/runs/` directory:
 - **Last run**: When was the last research conducted?
 - **Trend**: Is knowledge growing? (compare node/edge counts across runs if delta files exist)
 
-### 6. Suggested Next Actions
+### 8. Suggested Next Actions
 
 Based on the analysis, suggest concrete next steps:
 
@@ -63,6 +89,9 @@ Based on the analysis, suggest concrete next steps:
 - If graph is sparse: "The graph has few connections. Consider researching bridging topics."
 - If coverage is high: "Knowledge base is well-covered. Consider `/synthesis` to derive strategies."
 - If no synthesis has been done: "Consider `/synthesis` to generate combinations and decision trees."
+- If unsupported claims exist: "Consider adding `backs` edges to formalize evidence trails for: X, Y, Z"
+- If chains have validated weakest links: "Consider `/assess` to check if chain confidence can be upgraded"
+- If many claims lack rebuttals: "Consider defining rebuttal conditions — what would invalidate these claims?"
 
 ## Output Format
 

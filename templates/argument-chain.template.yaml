@@ -1,0 +1,18 @@
+chains:
+  - id: chain-example              # kebab-case, prefixed with "chain-"
+    name: "Example Argument Chain"  # Human-readable name
+    claim: "The composite conclusion this chain argues for"
+    provenance: synthesis           # literature | synthesis | hypothesis
+    links:
+      - from: node-a               # Node ID (start of this link)
+        to: node-b                 # Node ID (end of this link)
+        edge_id: null              # Reference to edge in edges.yaml (null if implicit)
+        warrant: "Why this step follows from the previous"
+        evidence_tier: 2           # 1-4 for this specific link
+        qualifier: mittel          # gesichert | hoch | mittel | niedrig | spekulativ
+    composite_qualifier: mittel    # Overall chain confidence = min(link qualifiers)
+    weakest_link: "node-a → node-b"  # The link with the lowest qualifier
+    disciplines: ["domain-a", "domain-b"]  # Which disciplines this chain crosses
+    rebuttal: "What would break the entire chain"
+    validates_with: "How to test the overall chain conclusion"
+    alternatives: []               # IDs of alternative chains explaining the same thing

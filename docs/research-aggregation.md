@@ -7,6 +7,8 @@ From a collection of isolated knowledge documents, systematically:
 2. **Create depth** (operational details, sources, formulas)
 3. **Discover connections** (which topics reinforce/contradict each other?)
 4. **Generate new insights** (combinations nobody has explicitly documented)
+5. **Track confidence** (how sure are we, and what would change our mind?)
+6. **Build argument chains** (cross-disciplinary reasoning with explicit warrants)
 
 ## Problem Statement
 
@@ -26,7 +28,7 @@ The magic lies in combining strategies. These combinations are not documented, n
 ### Problem 4: No Gap Awareness
 There is no systematic overview of which topic combinations have been explored and which have not. Gaps are discovered randomly, not systematically.
 
-## Solution: 3-Phase Pipeline
+## Solution: 4-Phase Pipeline
 
 ```
 Phase 1: BREADTH (Aggregation)
@@ -48,8 +50,16 @@ Phase 3: SYNTHESIS (Combinatorics)
 ├── Graph analysis: Identify synergies and conflicts
 ├── Cross-Impact Analysis: Find lever concepts
 ├── Calculate combinations (worked examples)
-├── Derive Decision Trees
-└── Result: New insights, strategies, decision aids
+├── Construct argument chains (per-link warrants, composite qualifiers)
+├── Derive Decision Trees (with assumption dependencies)
+└── Result: New insights, strategies, argument chains, decision aids
+
+Phase 4: ASSESSMENT (Confidence Tracking)
+├── Trace dependency propagation (backs/rebuts edges)
+├── Reassess claim qualifiers based on new evidence
+├── Recompute argument chain composite qualifiers
+├── Compare alternative chains
+└── Result: Propagation report, reassessment suggestions
 ```
 
 ## Scientific Methods
@@ -57,6 +67,7 @@ Phase 3: SYNTHESIS (Combinatorics)
 See `methoden.md` for details on:
 - Morphological Analysis (Fritz Zwicky)
 - Knowledge Graphs and Cross-Impact Analysis (Gordon/Helmer)
+- Toulmin Argumentation (qualifier, warrant, rebuttal, argument chains)
 - Systematic Literature Review (adapted)
 - Grounded Theory (Glaser/Strauss, adapted)
 - Meta-Analysis

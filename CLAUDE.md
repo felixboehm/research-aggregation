@@ -9,8 +9,9 @@ From isolated knowledge documents, systematically generate connections, combinat
 ## Skills
 
 - `/research-aggregation:research` – Idempotent topic research (broad if new, deeper if knowledge exists)
-- `/research-aggregation:analyse` – Read-only knowledge base status, gap analysis, coverage report
-- `/research-aggregation:synthesis` – Combinations, decision trees, cross-impact analysis from existing knowledge
+- `/research-aggregation:analyse` – Read-only knowledge base status, gap analysis, coverage report, argumentation health
+- `/research-aggregation:assess` – Read-only claim confidence assessment and dependency propagation
+- `/research-aggregation:synthesis` – Combinations, decision trees, cross-impact analysis, argument chains from existing knowledge
 
 ## Agents
 
@@ -20,7 +21,7 @@ From isolated knowledge documents, systematically generate connections, combinat
 ## Outputs
 
 All results are stored under `synthesis/` in the target project:
-- `graph/` – Knowledge Graph (nodes + edges in YAML)
+- `graph/` – Knowledge Graph (nodes + edges + argument chains in YAML)
 - `zwicky/` – Morphological Box (dimensions + cells)
 - `combinations/` – Calculated multi-strategy combinations
 - `decision-trees/` – Decision trees
