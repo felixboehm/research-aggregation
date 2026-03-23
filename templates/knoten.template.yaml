@@ -2,6 +2,10 @@ nodes:
   - id: example-concept            # kebab-case, unique
     name: "Example Concept"        # Human-readable name
     type: strategy                 # strategy | constraint | mechanism | structure | risk | role
+    qualifier: null                # gesichert | hoch | mittel | niedrig | spekulativ | null (null = not a claim)
+    claim_type: null               # claim | evidence | warrant | null (null = standard concept node)
+    rebuttal: null                 # What would invalidate this claim? (null if not applicable)
+    validates_with: null           # How to test this claim (null if not applicable)
     sources: ["wissen/01"]         # References to knowledge documents
     references: ["Smith 2023"]     # Relevant references (papers, standards, etc.)
     tags: ["example", "demo"]      # Free-text tags

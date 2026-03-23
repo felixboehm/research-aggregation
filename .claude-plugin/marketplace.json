@@ -7,8 +7,8 @@
   "plugins": [
     {
       "name": "research-aggregation",
-      "description": "3-skill knowledge aggregation plugin: /research (gather & integrate), /analyse (read-only status & gaps), /synthesis (combinations & decision trees). Includes @researcher agent for skill-aware parallel research and @synthesizer agent for Cross-Impact and Morphological analysis.",
-      "version": "1.1.0",
+      "description": "4-skill knowledge aggregation plugin: /research (gather & integrate), /analyse (status, gaps & argumentation health), /assess (claim confidence & dependency propagation), /synthesis (combinations, argument chains & decision trees). Includes @researcher agent for skill-aware parallel research and @synthesizer agent for Cross-Impact and Morphological analysis.",
+      "version": "1.2.0",
       "source": "./",
       "author": {
         "name": "Felix Boehm"
@@ -28,7 +28,9 @@
         "knowledge-management",
         "grounded-theory",
         "systematic-review",
-        "gap-analysis"
+        "gap-analysis",
+        "toulmin",
+        "argumentation"
       ]
     }
   ]

@@ -1,7 +1,8 @@
 edges:
   - from: concept-a                # Node ID (must exist in nodes.yaml)
     to: concept-b                  # Node ID
-    type: supports                 # supports | conflicts | requires | amplifies | activates | limits
+    type: supports                 # supports | conflicts | requires | amplifies | activates | limits | backs | rebuts
     strength: medium               # weak | medium | strong
     description: "Why does this relationship exist?"
     condition: null                # Under what condition? (null if always)
+    warrant: null                  # Reasoning principle justifying this relationship (null if obvious)

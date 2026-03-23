@@ -166,6 +166,6 @@ On first invocation: Create the directory structure `synthesis/` in the project 
 - YAML must be valid (observe required fields, see templates)
 - Each run creates an entry under `synthesis/runs/`
 - Node IDs in kebab-case, unique
-- Edges only with the 6 allowed types: supports, conflicts, requires, amplifies, activates, limits
+- Edges only with the 8 allowed types: supports, conflicts, requires, amplifies, activates, limits, backs, rebuts
 - Source quality must be assessed and documented
 - When deepening: preserve existing nodes/edges, add to them — never delete or overwrite previous research

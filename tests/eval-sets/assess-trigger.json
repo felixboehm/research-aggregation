@@ -1,0 +1,50 @@
+{
+  "skill_name": "assess",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess which claims need reassessment",
+      "should_trigger": true
+    },
+    {
+      "id": 2,
+      "prompt": "Which claims changed after the new data?",
+      "should_trigger": true
+    },
+    {
+      "id": 3,
+      "prompt": "Trace dependency propagation for my claims",
+      "should_trigger": true
+    },
+    {
+      "id": 4,
+      "prompt": "What needs reassessment?",
+      "should_trigger": true
+    },
+    {
+      "id": 5,
+      "prompt": "Check claim status and confidence",
+      "should_trigger": true
+    },
+    {
+      "id": 6,
+      "prompt": "Reassess the argument chains",
+      "should_trigger": true
+    },
+    {
+      "id": 7,
+      "prompt": "Research battery storage technology",
+      "should_trigger": false
+    },
+    {
+      "id": 8,
+      "prompt": "What do we know so far?",
+      "should_trigger": false
+    },
+    {
+      "id": 9,
+      "prompt": "Generate combination strategies",
+      "should_trigger": false
+    }
+  ]
+}

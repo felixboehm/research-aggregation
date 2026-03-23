@@ -65,16 +65,37 @@ Per main decision (e.g., "Which strategy to pursue?"):
 
 Use the template from `${CLAUDE_PLUGIN_ROOT}/templates/decision-tree.template.md`.
 
-### 5. Update research questions
+### 5. Construct argument chains
+
+When synergy chains or combination strategies reveal multi-step reasoning (A → B → C → conclusion), construct formal argument chains:
+
+1. **Build the chain** — for each link in the reasoning:
+   - State the warrant (why does A lead to B?)
+   - Assess the link's qualifier (how confident are we in this specific step?)
+   - Identify the evidence tier for this step (1 = meta-analysis/RCT, 2 = observational, 3 = mechanistic, 4 = anecdotal)
+2. **Compute composite qualifier** — chain confidence = min(link qualifiers). A chain is only as strong as its weakest step
+3. **Identify weakest link** — explicitly flag the bottleneck; this is where research effort should focus
+4. **Classify provenance**:
+   - `literature` — chain found as a complete argument in published sources
+   - `synthesis` — constructed by connecting findings from multiple sources/disciplines
+   - `hypothesis` — proposed without direct evidence, based on mechanistic plausibility
+5. **Check for alternative chains** — if two chains explain the same observation, document both and compare composite qualifiers
+6. **Track disciplines** — record which domains each chain crosses; chains crossing 3+ disciplines represent the most novel insights
+
+Save argument chains to `synthesis/graph/chains.yaml`. Use the template from `${CLAUDE_PLUGIN_ROOT}/templates/argument-chain.template.yaml`.
+
+### 6. Update research questions
 
 - What remains open after synthesis?
 - What new questions did the combination analysis raise?
+- Which weakest links in argument chains need targeted research?
 - Update `synthesis/gaps/research-questions.md`
 
 ### Outputs
 
 - `synthesis/combinations/combi-*.md`
 - `synthesis/decision-trees/dt-*.md`
+- `synthesis/graph/chains.yaml` (argument chains)
 - `synthesis/graph/views/cross-impact.md`
 - `synthesis/gaps/research-questions.md` (updated)
 - `synthesis/runs/DATE-synthesis/run.yaml` + `new-combinations.md` + `insights.md`

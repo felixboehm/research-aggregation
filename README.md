@@ -5,11 +5,14 @@ Claude Code plugin for systematic knowledge aggregation and synthesis.
 ## What It Does
 
 From a collection of isolated knowledge documents, systematically:
-- **Discover connections** (Knowledge Graph with 6 relationship types)
+- **Discover connections** (Knowledge Graph with 8 relationship types)
+- **Track confidence** (Toulmin-light argumentation with qualifiers and warrants)
+- **Build argument chains** (cross-disciplinary synthesis with per-link confidence)
 - **Check completeness** (Morphological Box / Zwicky Box)
 - **Find gaps** (prioritized research questions)
 - **Calculate combinations** (multi-strategy worked examples)
 - **Derive decision aids** (Decision Trees)
+- **Assess propagation** (trace how new data affects existing claims)
 
 ## Installation
 
@@ -40,21 +43,30 @@ On first run, scans all knowledge documents and builds the Knowledge Graph + Mor
 
 ### `/analyse` — Knowledge Base Status
 
-Read-only inspection: what is known, what is missing, how complete the graph is.
+Read-only inspection: what is known, what is missing, how complete the graph is. Includes argumentation health and argument chain analysis.
 
 | Invocation | Action |
 |---|---|
-| `/analyse` | Full status report (graph stats, coverage, gaps, history) |
+| `/analyse` | Full status report (graph stats, argumentation health, coverage, gaps, history) |
 | `/analyse gaps` | Focus on gap matrix only |
 | `/analyse graph` | Focus on knowledge graph statistics only |
 
-### `/synthesis` — Combinations & Decision Trees
+### `/assess` — Claim Confidence & Dependency Propagation
 
-From the Knowledge Graph and Morphological Box, derive strategies and decision aids.
+Read-only assessment of which claims and argument chains need reassessment after new data arrives.
 
 | Invocation | Action |
 |---|---|
-| `/synthesis` | Full synthesis: synergies, cross-impact, combinations, decision trees |
+| `/assess` | Full assessment of all tracked claims and chains |
+| `/assess CLAIM_ID` | Assess a specific claim and its dependents |
+
+### `/synthesis` — Combinations, Decision Trees & Argument Chains
+
+From the Knowledge Graph and Morphological Box, derive strategies, decision aids, and formal argument chains.
+
+| Invocation | Action |
+|---|---|
+| `/synthesis` | Full synthesis: synergies, cross-impact, combinations, argument chains, decision trees |
 | `/synthesis A+B` | Calculate a specific combination of concepts A and B |
 
 ## Agent
@@ -65,19 +77,19 @@ From the Knowledge Graph and Morphological Box, derive strategies and decision a
 ## Pipeline
 
 ```
-/research               /analyse              /synthesis
-┌──────────────┐    ┌──────────────┐    ┌──────────────────────┐
-│ Scan docs    │    │ Graph stats  │    │ Graph Analysis       │
-│ Discover     │    │ Coverage %   │    │ Cross-Impact         │
-│  skills      │    │ Gap matrix   │    │ Combinations         │
-│ @researcher  │    │ Run history  │    │ Decision Trees       │
-│ Web research │    │              │    │                      │
-│              │    │ → Status     │    │ → New Insights       │
-│ → Graph      │    │ → Next steps │    │ → Strategies         │
-│ → Zwicky     │    │              │    │                      │
-│ → Knowledge  │    │              │    │                      │
-└──────────────┘    └──────────────┘    └──────────────────────┘
-    writes              reads               reads + writes
+/research               /analyse              /synthesis             /assess
+┌──────────────┐    ┌──────────────┐    ┌──────────────────┐    ┌──────────────┐
+│ Scan docs    │    │ Graph stats  │    │ Graph Analysis   │    │ Claim status │
+│ Discover     │    │ Arg. health  │    │ Cross-Impact     │    │ Propagation  │
+│  skills      │    │ Chain health │    │ Combinations     │    │  tracing     │
+│ @researcher  │    │ Coverage %   │    │ Argument Chains  │    │ Chain re-    │
+│ Web research │    │ Gap matrix   │    │ Decision Trees   │    │  assessment  │
+│              │    │ Run history  │    │                  │    │ Alternative  │
+│ → Graph      │    │              │    │ → New Insights   │    │  comparison  │
+│ → Zwicky     │    │ → Status     │    │ → Strategies     │    │              │
+│ → Knowledge  │    │ → Next steps │    │ → Chains         │    │ → Report     │
+└──────────────┘    └──────────────┘    └──────────────────┘    └──────────────┘
+    writes              reads               reads + writes           reads
 ```
 
 ## Outputs
@@ -86,7 +98,7 @@ All results under `synthesis/` in the target project:
 
 | Directory | Content |
 |---|---|
-| `graph/` | Knowledge Graph (nodes.yaml, edges.yaml) |
+| `graph/` | Knowledge Graph (nodes.yaml, edges.yaml, chains.yaml) |
 | `zwicky/` | Morphological Box (dimensions + cells) |
 | `combinations/` | Calculated multi-strategy combinations |
 | `decision-trees/` | Decision trees |
@@ -96,7 +108,8 @@ All results under `synthesis/` in the target project:
 ## Scientific Methods
 
 - **Morphological Analysis** (Fritz Zwicky) — Systematic combination matrix
-- **Knowledge Graph** — Concepts + relationships (6 edge types)
+- **Knowledge Graph** — Concepts + relationships (8 edge types)
+- **Toulmin Argumentation** — Qualifier, warrant, rebuttal, and dependency tracking
 - **Cross-Impact Analysis** (Gordon/Helmer) — Lever and indicator concepts
 - **Grounded Theory** — Bottom-up concept extraction
 - **Systematic Literature Review** — Structured deep research

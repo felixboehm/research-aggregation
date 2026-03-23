@@ -67,7 +67,7 @@ fi
 echo ""
 echo "--- Edge Types ---"
 EDGES_FILE="$SYNTHESIS_DIR/graph/edges.yaml"
-ALLOWED_TYPES="supports conflicts requires amplifies activates limits"
+ALLOWED_TYPES="supports conflicts requires amplifies activates limits backs rebuts"
 if [ -f "$EDGES_FILE" ]; then
   invalid=$(python3 -c "
 import yaml
@@ -87,6 +87,37 @@ if invalid: print('  Invalid types:', ', '.join(set(invalid)))
 else
   echo "  WARN: edges.yaml not found"
   ((WARNINGS++))
+fi
+
+# --- Argument chain validation ---
+echo ""
+echo "--- Argument Chains ---"
+CHAINS_FILE="$SYNTHESIS_DIR/graph/chains.yaml"
+if [ -f "$CHAINS_FILE" ]; then
+  if python3 -c "import yaml; yaml.safe_load(open('$CHAINS_FILE'))" 2>/dev/null; then
+    echo "  OK: chains.yaml – valid YAML"
+  else
+    echo "  FAIL: chains.yaml – invalid YAML"
+    ((ERRORS++))
+  fi
+  for field in id name claim provenance links composite_qualifier; do
+    count=$(python3 -c "
+import yaml
+data = yaml.safe_load(open('$CHAINS_FILE'))
+chains = data.get('chains', [])
+missing = [c.get('id','?') for c in chains if '$field' not in c]
+print(len(missing))
+if missing: print('  Missing in:', ', '.join(missing[:5]))
+" 2>/dev/null || echo "ERROR")
+    if [ "$count" = "0" ]; then
+      echo "  OK: All chains have '$field'"
+    else
+      echo "  FAIL: $count chains without '$field'"
+      ((ERRORS++))
+    fi
+  done
+else
+  echo "  INFO: chains.yaml not found (optional)"
 fi
 
 # --- Referential integrity ---
